@@ -1,19 +1,8 @@
-def createConnection(dbFile):
-    conn = None
-    try:
-        conn = sqlite3.connect(dbFile)
-        print(sqlite3.version)
-    except Error as e:
-        print(e)
-    finally:
-        if conn:
-            conn.close()
-            
+import sqlite3
+connection = sqlite3.connect("database.db")
 
-def create_table(conn, createTableSql):
-    try:
-        c = conn.cursor()
-        c.execute(createTableSql)
-    except Error as e:
-        print(e)
-        
+with open("./schema.sql") as f:
+    connection.executescript(f.read())
+
+connection.commit()
+connection.close()
